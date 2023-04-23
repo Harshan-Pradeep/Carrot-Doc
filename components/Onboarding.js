@@ -31,6 +31,7 @@ const Onboarding = () => {
   )
 }
 
+//onboarding component styles
 const styles=StyleSheet.create({
     mainContainer:{
         display:'flex',
