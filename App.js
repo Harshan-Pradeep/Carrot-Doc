@@ -33,6 +33,8 @@ export default function App() {
           <Stack.Screen options={{headerShown:false}}  name="Onboarding2" component={Onboarding2} />
           <Stack.Screen options={{headerShown:false}}  name="Onboarding3" component={Onboarding3} />
           <Stack.Screen options={{headerShown:false}}  name="Dashboard" component={Dashboard} />
+          <Stack.Screen options={{headerShown:false}}  name="Diagnosis" component={Diagnosis} />
+
         </Stack.Navigator>
       </NavigationContainer>
     

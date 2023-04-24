@@ -3,8 +3,12 @@ import { SafeAreaView, ScrollView, TouchableOpacity } from 'react-native'
 import { Button, Image, View, Platform, Text, StyleSheet} from 'react-native';
 import React, { useState, useEffect } from 'react';
 import * as ImagePicker from 'expo-image-picker';
+import Diagnosis from './Diagnosis';
+import { useNavigation } from '@react-navigation/native';
 
 const Dashboard = () => {
+  const navigation = useNavigation();
+
   const [imageUri, setImageUri] = useState(null);
 
   useEffect(() => {
@@ -34,6 +38,7 @@ const Dashboard = () => {
     if (!result.canceled) {
       setImageUri(result.assets[0].uri);
       console.log(imageUri);
+      navigation.navigate("Diagnosis", {imageUrl:imageUri});
     }
   };
 
@@ -47,6 +52,8 @@ const Dashboard = () => {
     if (!result.canceled) {
       setImageUri(result.assets[0].uri);
       console.log(imageUri);
+      navigation.navigate("Diagnosis", {imageUrl:imageUri});
+      
     }
   };
   

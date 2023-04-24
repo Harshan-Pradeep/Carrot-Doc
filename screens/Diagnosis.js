@@ -1,15 +1,37 @@
 import { View, Text, StyleSheet, TouchableOpacity, Image, Modal } from 'react-native';
 import React, { useState } from 'react';
 import { BlurView } from 'expo-blur';
+import { useRoute } from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 
 const Diagnosis = () => {
+
+  const navigation = useNavigation();
+
+  //catch imageUrl which is sent from Dashboard screen
+  const route = useRoute();
+  const { imageUrl } = route.params;
+  console.log("diagnose:", imageUrl)
+
   //useState hook for identify is popup screen visible or ot
   const [isPopupVisible, setIsPopupVisible] = useState(false);
+
+  //set diagnosis details when click Diagnosis button 
+  const [title,setTitle]=useState("");
+  const [description,setDescription]=useState("");
+  const [image,setImage]=useState(null);
+
+  const loadContent=()=>{
+    setTitle("Black Root Rot !")
+    setDescription("Black root rot occurs primarily in storage when conditions are not ideal and temperature and humidity are too high. ");
+    setImage(imageUrl)
+  }
 
   //set popup screen 
   const togglePopup = () => {
     setIsPopupVisible(!isPopupVisible);
   }
+
 
   //popup screen
   const Popup = () => {
@@ -18,7 +40,9 @@ const Diagnosis = () => {
         <View style={styles.popupContainer}>
           <BlurView style={styles.popupBackground} intensity={100} tint="dark" />
           <View style={styles.popupContent}>
-            <Text style={styles.popupText}>This is the popup!</Text>
+            <Text style={styles.popupTextTitle}>{title}</Text>
+            <Text style={styles.popupText}>Before planting:</Text>
+            <Text style={styles.popupText}>Scouting crews that note uneven or irregular growth among plants in the same tray or container, or spotty chlorotic plant tissues randomly distributed throughout the greenhouse, have likely uncovered black root rot, which is caused by the fungus Thielaviopsis basicola.{'\n'}{'\n'}Scouting crews that note uneven or irregular growth among plants in the same tray or container, or spotty chlorotic plant tissues randomly distributed throughout the greenhouse, have likely uncovered black root rot, which is caused by the fungus Thielaviopsis basicola.{'\n'}{'\n'}Scouting crews that note uneven or irregular growth among plants in the same tray or container, or spotty chlorotic plant tissues randomly distributed throughout the greenhouse, have likely uncovered .</Text>
 
             <View style={styles.popupScreenButtons}>
               <TouchableOpacity style={styles.closeButton} onPress={togglePopup}>
@@ -48,19 +72,22 @@ const Diagnosis = () => {
 
       { /*image view section*/ }
       <View style={styles.imageView}>
+        <Image  source={{ uri: image }} style={styles.imageView}/>
 
       </View>
 
       { /*diagnosis button*/ }
       <View>
-        <TouchableOpacity style={styles.diagnosisButton}><Text style={styles.diagnosisButtonText}>Diagnosis</Text></TouchableOpacity>
+        <TouchableOpacity onPress={loadContent} style={styles.diagnosisButton}><Text style={styles.diagnosisButtonText}>Diagnosis</Text></TouchableOpacity>
       </View>
 
       { /*diagnosis detail section*/ }
       <View style={styles.diagnosisDetails}>
         <Text style={styles.detailTitle}>Non - Fresh!</Text>
         <Text style={styles.detailName}>Diagnosis Name:</Text>
+        <Text style={styles.diagnosisContent}>{title}</Text>
         <Text style={styles.description}>Diagnosis:</Text>
+        <Text style={styles.diagnosisContent}>{description}</Text>
 
       </View>
 
@@ -101,7 +128,6 @@ const styles=StyleSheet.create({
         height:220,
         width:309,
         borderRadius:43,
-        backgroundColor:"#000",
     },
 
     //diagnosis button 
@@ -156,6 +182,14 @@ const styles=StyleSheet.create({
         color:'#918d8a',
         lineHeight:25,    
     },
+    diagnosisContent:{
+      fontSize:16,
+      fontWeight:400,
+      textAlign:'left',
+      color:'#7D8488',
+      lineHeight:25,
+  },
+
     //precautions button
     precautionButton:{
         width:336,
@@ -194,15 +228,26 @@ const styles=StyleSheet.create({
         backgroundColor: 'white',
         borderRadius: 8,
         padding: 16,
-        alignItems: 'center',
         width:323,
         height:669,
       },
+      popupTextTitle: {
+        fontSize: 20,
+        fontWeight:700,
+        color: '#515B60',
+        marginBottom: 16,
+        paddingTop:16,
+        lineHeight:18,
+        textAlign:'left',
+      },
       popupText: {
-        fontSize: 24,
-        fontWeight: 'bold',
-        color: 'black',
-        marginBottom: 16
+        fontSize: 16,
+        fontWeight:400,
+        color: '#515B60',
+        marginBottom: 16,
+        paddingTop:16,
+        lineHeight:18,
+        textAlign:'left',
       },
       closeButton: {
         backgroundColor: '#A13600',
@@ -226,12 +271,14 @@ const styles=StyleSheet.create({
         fontWeight:400,
         textAlign:'center',
         lineHeight:18,
+        marginBottom:15,
+
+   
  
       },
       popupScreenButtons:{
-        display:'flex',
-        alignItems:'center',
-        justifyContent:'center',
+        flex:1,
+        alignItems:'flex-end',
         flexDirection:'row',
         gap:80
 

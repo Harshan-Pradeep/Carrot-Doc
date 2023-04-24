@@ -42,7 +42,6 @@ const styles=StyleSheet.create({
         justifyContent:'center',
         alignItems:'center',
         flex:1,
-        
     },
 
     //upper text
@@ -54,8 +53,6 @@ const styles=StyleSheet.create({
         paddingLeft:20,
         paddingRight:20,
         textAlign:'left',
-        
-        
     },
     //lower text
     lowerText:{
@@ -67,6 +64,8 @@ const styles=StyleSheet.create({
         paddingRight:25,
         paddingTop:15,
         textAlign:'left',
+        marginTop:2,
+        marginBottom:400
     },
 
     //page number and next icon
@@ -76,6 +75,8 @@ const styles=StyleSheet.create({
         alignItems:'center',
         justifyContent:'space-between',
         columnGap:40,
+
+    
         
         
     },
