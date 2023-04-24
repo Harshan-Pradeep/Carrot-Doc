@@ -1,14 +1,57 @@
 
 import { SafeAreaView, ScrollView, TouchableOpacity } from 'react-native'
-import React, { useState, useEffect } from 'react';
 import { Button, Image, View, Platform, Text, StyleSheet} from 'react-native';
+import React, { useState, useEffect } from 'react';
 import * as ImagePicker from 'expo-image-picker';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 const Dashboard = () => {
+  const [imageUri, setImageUri] = useState(null);
 
+  useEffect(() => {
+    getPermissions();
+  }, []);
 
+  const getPermissions = async () => {
+    const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+    if (status !== 'granted') {
+      alert('Sorry, we need media library permissions to make this work!');
+    }
+
+    const { status: cameraStatus } = await ImagePicker.requestCameraPermissionsAsync();
+    if (cameraStatus !== 'granted') {
+      alert('Sorry, we need camera permissions to make this work!');
+    }
+  };
+
+  const pickImage = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+
+    if (!result.canceled) {
+      setImageUri(result.assets[0].uri);
+      console.log(imageUri);
+    }
+  };
+
+  const takePhoto = async () => {
+    let result = await ImagePicker.launchCameraAsync({
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+
+    if (!result.canceled) {
+      setImageUri(result.assets[0].uri);
+      console.log(imageUri);
+    }
+  };
+  
   return (
+    
     //Main container
     
       <View style={styles.mainContainer}>
@@ -52,16 +95,16 @@ const Dashboard = () => {
         </View>
 
         <View>
-          <Image source={require('../assets/DashbordIcons/carrotDiseases.png')} />
+          <Image source={require('../assets/DashbordIcons/carrotDiseases.png')} />   
         </View>
 
         { /* take/upload picture section */ }
         <View>
-          <TouchableOpacity style={styles.pictureButton}><Text style={styles.pictureButtonText}>Take a Picture</Text></TouchableOpacity>
+          <TouchableOpacity style={styles.pictureButton}><Text style={styles.pictureButtonText} onPress={takePhoto}>Take a Picture</Text></TouchableOpacity>
         </View>
 
         <View>
-          <TouchableOpacity style={styles.pictureButton}><Text style={styles.pictureButtonText}>Upload</Text></TouchableOpacity>
+          <TouchableOpacity style={styles.pictureButton}><Text style={styles.pictureButtonText} onPress={pickImage}>Upload</Text></TouchableOpacity>
         </View>
         
       </View>
@@ -155,5 +198,6 @@ const styles=StyleSheet.create({
     color:'#FFFFFFFF',
     textAlign:'center',
   },
+
 })
 export default Dashboard;
