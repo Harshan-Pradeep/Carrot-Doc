@@ -219,16 +219,14 @@ const styles=StyleSheet.create({
         color: 'white',
         textAlign:'center',
         lineHeight:18,
-        
-        
+         
       },
       cancelButton: {
         fontSize: 16,
         fontWeight:400,
         textAlign:'center',
         lineHeight:18,
-        
-        
+ 
       },
       popupScreenButtons:{
         display:'flex',

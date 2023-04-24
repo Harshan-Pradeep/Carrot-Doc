@@ -1,18 +1,22 @@
 import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native'
 import React from 'react'
+import { useNavigation } from '@react-navigation/native';
 
-const Onboarding = () => {
+const Onboarding = ({upperText,lowerText,navgigationScreen}) => {
+    
+    const navigation = useNavigation();
+    
   return (
     //main container
     <View style={styles.mainContainer}>
 
     { /*upper text*/ }
         <View >
-            <Text style={styles.upperText}>You can get all details about carrot freshness</Text>
+            <Text style={styles.upperText}>{upperText}</Text>
         </View>
     { /*lower text*/ }
          <View >
-            <Text style={styles.lowerText}>We provide best mobile app to detect carrot vegetable freshness according to the color, shape, texture, and etc.</Text>
+            <Text style={styles.lowerText}>{lowerText}</Text>
         </View>
 
     { /*next icon and page number*/ }
@@ -23,7 +27,7 @@ const Onboarding = () => {
         </View>
 
         <View>
-            <TouchableOpacity><Image source={require('../assets/Onboarding/next.png')} /></TouchableOpacity>
+            <TouchableOpacity onPress={() => navigation.navigate(navgigationScreen)} ><Image source={require('../assets/Onboarding/next.png')} /></TouchableOpacity>
         </View>
     </View>
 

@@ -1,7 +1,21 @@
 import { View, Text, StyleSheet, Image } from 'react-native'
-import React from 'react'
+import React, {useState, useEffect} from 'react'
+import { useNavigation } from "@react-navigation/native";
 
 const Intro = () => {
+
+    const [isGo,setIsGo]=useState(true);
+    const Navigation=useNavigation();
+
+    useEffect(()=>{
+        if(isGo==true){
+            setTimeout(()=>{
+                Navigation.navigate("Onboarding1");
+                setIsGo(false)
+            },4000);
+        }
+    });
+
   return (
     //main container
     <View style={styles.mainContainer} >
