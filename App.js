@@ -4,8 +4,6 @@ import Dashboard from './screens/Dashboard';
 import Diagnosis from './screens/Diagnosis';
 import Onboarding from './components/Onboarding';
 import Intro from './screens/Intro';
-import Camera from './screens/Camera';
-import PopUp from './screens/PopUp';
 import Onboarding1 from './screens/Onboarding1';
 import Onboarding2 from './screens/Onboarding2';
 import Onboarding3 from './screens/Onboarding3';
