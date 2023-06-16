@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { BlurView } from 'expo-blur';
 import { useRoute } from '@react-navigation/native';
 import { useNavigation } from '@react-navigation/native';
+import axios from 'axios';
 
 const Diagnosis = () => {
 
@@ -21,10 +22,39 @@ const Diagnosis = () => {
   const [description,setDescription]=useState("");
   const [image,setImage]=useState(null);
 
-  const loadContent=()=>{
-    setTitle("Black Root Rot !")
+  const loadContent= async()=>{
+    
+
+    //API request code
+    try{
+      const formData = new FormData();
+    formData.append('file', {
+      uri: imageUrl,
+      type: 'image/jpeg',
+      name: 'file-image.jpg',
+    });
+    const response = await axios.post(
+      'http://103.1.179.203:8080/predict',
+      formData,
+      {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      }
+    );
+    console.log(response.data);
+    var title=response.data.prediction;
+    setTitle(title)
     setDescription("Black root rot occurs primarily in storage when conditions are not ideal and temperature and humidity are too high. ");
     setImage(imageUrl)
+
+    } catch (error) {
+      console.error(error);
+    }
+
+    //API request code end
+    
+ 
   }
 
   //set popup screen 
