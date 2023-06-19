@@ -5,21 +5,95 @@ import { useRoute } from '@react-navigation/native';
 import { useNavigation } from '@react-navigation/native';
 import axios from 'axios';
 
+
+
+
+
+
 const Diagnosis = () => {
 
   const navigation = useNavigation();
+  const handleBackPress = () => {
+    navigation.goBack(); // Go back to the previous screen
+  };
 
+  //description object
+  const description={
+    Powdermildew:{
+      description:"white or grayish powdery coating on the leaves, stems, and petioles.reduced yield and quality of the affected crops.",
+      precaution:".Plant resistant varieties.water wisely.remove infected plant material.practice good sanitation.monitor regularly",
+    },
+    CavitySpotandRootDieback:{
+      description:"sunken lesions.Darkened spots Cavities.Reduced carrot yield",
+      precaution:".improve soil drainage.avoid overwatering.Crop rotation.use of disease-resistant varieties",
+    },
+    BlackRootRot:{
+      description:"The roots of infected plants may become black and decayed.The decay can begin at the tips and spread throughout the root system.Complete carrot crop failure.",
+      precaution:".Plant disease-resistant carrot varieties.practice crop rotation.improve soil drainage.avoid overwatering.clean equipment.remove infected plants.apply fungicides",
+    },
+    purpleDisease:{
+      description:"discolored roots,Soft, mushy tissue stunted growth yellowing foliage, wilt or die.reduced yield and quality of the affected crops",
+      precaution:".crop rotation.proper irrigation.good soil management practices.",
+      
+    },
+    yellowdiseases:{
+      description:"Reduced yield poor quality carrots",
+      precaution:".Practice good sanitation.water properly.provide proper nutrition.Apply fungicides or other treatments if necessary",
+      
+      
+    },
+    healthycarrotleaves:{
+      description:"Fresh leaves typically have a vibrant and consistent color. Appear lively and bright, reflecting the characteristic color of the plspecies. Fresh leaves should feel smooth and supple to the touch.Natural shape and structure of the leaves. Some fresh leaves have a distinct aroma.",
+    },
+    carrotdryleaves:{
+      description:"Carrot Root Affect Root Small",
+      precaution:".Soil Preparation.Pest Control.Give essential nutrients, such as nitrogen, phosphorus, or potassium",
+    },
+    carrotleafblight:{
+      description:"Root Small Deformed roots",
+      precaution:".Water Management.Weed Control.Crop Rotation.Proper Spacing",
+    },
+    carrotleafspot:{
+      description:"Root Small-Deformed roots-Stuned growth.",
+      precaution:".Plant-resistant varieties.Crop rotation.Sanitation.Proper irrigation.Fungicides",
+
+    },
+    carrotpurpleleavesticks:{
+      description:"-Root Small-Deformed roots-Stuned growth-Discoloration roots-Purple roots",
+      precaution:".Plant disease-resistant carrot varieties.practice crop rotation.practice good sanitation.Monitor and manage irrigation",
+
+    },
+    WhiteMold:{
+      description:"development of a white, cottony or fluffy fungal growth on the affected plant parts.impacting the overall health of the plant and reducing yield.",
+      precaution:".Proper spacing and ventilation.Soil drainage and moisture management.Weed control.Good sanitation.Crop rotation",
+
+    },
+    RootKnotNematode:{
+      description:"presence of galls or swellings on the roots.Stunted growth.Reduced root system.Root deformation.Root galls ",
+      precaution:".Avoid overwatering.Use nematode-free seedlings.Soil sanitation.Soil solarization.Soil amendments",
+    },
+    HealthyCarrots:{
+      description:"Brightning orange color Texture should feel firm and crisp with smooth and unblemished skin Fresh carrots typically have a mild, earthy aroma.",
+
+    }
+
+  };
+  // console.log(description["healthyleaves"]["description"]);
   //catch imageUrl which is sent from Dashboard screen
   const route = useRoute();
   const { imageUrl } = route.params;
   console.log("diagnose:", imageUrl)
 
+  const path = imageUrl;
+
+  
   //useState hook for identify is popup screen visible or ot
   const [isPopupVisible, setIsPopupVisible] = useState(false);
 
   //set diagnosis details when click Diagnosis button 
   const [title,setTitle]=useState("");
-  const [description,setDescription]=useState("");
+  const [descriptionTitle,setDescriptionTitle]=useState("");
+  // const [description,setDescription]=useState("");
   const [image,setImage]=useState(null);
 
   const loadContent= async()=>{
@@ -44,8 +118,13 @@ const Diagnosis = () => {
     );
     console.log(response.data);
     var title=response.data.prediction;
-    setTitle(title)
-    setDescription("Black root rot occurs primarily in storage when conditions are not ideal and temperature and humidity are too high. ");
+    // var descriptionTitle=title.split('-')
+    //setTitle(title);
+    setTitle(title);
+    setDescriptionTitle(title.replace(/-/g, "").replace(/\s/g, ""));
+
+    
+   // setDescription("Black root rot occurs primarily in storage when conditions are not ideal and temperature and humidity are too high. ");
     setImage(imageUrl)
 
     } catch (error) {
@@ -72,7 +151,14 @@ const Diagnosis = () => {
           <View style={styles.popupContent}>
             <Text style={styles.popupTextTitle}>{title}</Text>
             <Text style={styles.popupText}>Before planting:</Text>
-            <Text style={styles.popupText}>Scouting crews that note uneven or irregular growth among plants in the same tray or container, or spotty chlorotic plant tissues randomly distributed throughout the greenhouse, have likely uncovered black root rot, which is caused by the fungus Thielaviopsis basicola.{'\n'}{'\n'}Scouting crews that note uneven or irregular growth among plants in the same tray or container, or spotty chlorotic plant tissues randomly distributed throughout the greenhouse, have likely uncovered black root rot, which is caused by the fungus Thielaviopsis basicola.{'\n'}{'\n'}Scouting crews that note uneven or irregular growth among plants in the same tray or container, or spotty chlorotic plant tissues randomly distributed throughout the greenhouse, have likely uncovered .</Text>
+
+             {title && description[descriptionTitle] && (
+          <Text style={styles.popupText}> 
+            {description[descriptionTitle]["precaution"].replace(/\./g, '\n\u2022')}
+          </Text>
+        )}
+ 
+
 
             <View style={styles.popupScreenButtons}>
               <TouchableOpacity style={styles.closeButton} onPress={togglePopup}>
@@ -96,7 +182,9 @@ const Diagnosis = () => {
       
       {/*Back button and logo */}
       <View style={styles.topIconSection}>
-        <TouchableOpacity  ><Image  source={require("../assets/DiagnosisIcons/backIcon.png")} /></TouchableOpacity>
+      <TouchableOpacity onPress={handleBackPress}>
+      <Image source={require("../assets/DiagnosisIcons/backIcon.png")} />
+      </TouchableOpacity>
         <Image source={require("../assets/DiagnosisIcons/logo.png")} />
       </View>
 
@@ -117,7 +205,15 @@ const Diagnosis = () => {
         <Text style={styles.detailName}>Diagnosis Name:</Text>
         <Text style={styles.diagnosisContent}>{title}</Text>
         <Text style={styles.description}>Diagnosis:</Text>
-        <Text style={styles.diagnosisContent}>{description}</Text>
+        
+        {title && description[descriptionTitle] && (
+          <Text style={styles.diagnosisContent}>
+            {description[descriptionTitle]["description"]}
+          </Text>
+        )}
+
+
+
 
       </View>
 

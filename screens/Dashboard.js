@@ -30,7 +30,7 @@ const Dashboard = () => {
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      allowsEditing: true,
+      allowsEditing: false,
       aspect: [4, 3],
       quality: 1,
     });
@@ -44,8 +44,8 @@ const Dashboard = () => {
 
   const takePhoto = async () => {
     let result = await ImagePicker.launchCameraAsync({
-      allowsEditing: true,
-      aspect: [4, 3],
+      allowsEditing: false,
+       aspect: [4, 3],
       quality: 1,
     });
 
