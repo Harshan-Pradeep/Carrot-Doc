@@ -19,9 +19,15 @@
     },
     "android": {
       "adaptiveIcon": {
+        "package": "com.group.foodsha",
+      "versionCode": "3.4",
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "permissions": [
+        "android.permission.RECORD_AUDIO"
+      ],
+      "package": "com.harshanpradeep.CarrotDoc"
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -33,6 +39,11 @@
           "photosPermission": "The app accesses your photos to let you share them with your friends."
         }
       ]
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "6848d920-279c-4bf2-ad72-608cdc58d00c"
+      }
+    }
   }
 }

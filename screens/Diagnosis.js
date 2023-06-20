@@ -152,11 +152,12 @@ const Diagnosis = () => {
             <Text style={styles.popupTextTitle}>{title}</Text>
             <Text style={styles.popupText}>Before planting:</Text>
 
-             {title && description[descriptionTitle] && (
-          <Text style={styles.popupText}> 
-            {description[descriptionTitle]["precaution"].replace(/\./g, '\n\u2022')}
-          </Text>
-        )}
+            {title && description[descriptionTitle] && description[descriptionTitle]["precaution"] && (
+  <Text style={styles.popupText}> 
+    {description[descriptionTitle]["precaution"].replace(/\./g, '\n\u2022')}
+  </Text>
+)}
+
  
 
 
